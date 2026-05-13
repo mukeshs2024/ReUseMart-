@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type ComponentType, type FormEvent } from 'react';
 import {
     ChevronDown,
     Inbox,
@@ -22,13 +22,19 @@ import { getActiveMarketplaceMode, isSellerAccount, isSellerMode } from '@/lib/a
 import api from '@/lib/axios';
 import { disconnectChatSocket, getChatSocket, type LiveChatMessage } from '@/lib/chatSocket';
 
-const NAV_LINKS = [
+type NavLink = {
+    href: string;
+    label: string;
+    icon?: ComponentType<{ className?: string }>;
+};
+
+const NAV_LINKS: NavLink[] = [
     { href: '/products', label: 'Products' },
     { href: '/categories', label: 'Categories' },
     { href: '/help', label: 'Help' },
 ];
 
-const SELLER_LINKS = [
+const SELLER_LINKS: NavLink[] = [
     { href: '/seller/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/seller/products', label: 'My Listings', icon: Package },
     { href: '/profile', label: 'Profile', icon: UserCircle2 },

@@ -65,7 +65,7 @@ export default function SellerDashboardPage() {
         const socket = token ? getChatSocket(token) : null;
 
         const onOrderPlaced = (event: LiveOrderPlaced) => {
-            if (event.sellerId !== user?.id) {
+            if (event.primarySellerId !== user?.id) {
                 return;
             }
 
