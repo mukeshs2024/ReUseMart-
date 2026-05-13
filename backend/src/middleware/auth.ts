@@ -35,7 +35,7 @@ async function verifyTokenAndAttachUser(
         // Prevent stale-token issues when users were deleted/recreated (e.g. after reseeding).
         const existingUser = await prisma.user.findUnique({
             where: { id: decoded.id },
-            select: { id: true, email: true, role: true, userType: true, isSeller: true, activeMode: true },
+            select: { id: true, name: true, email: true, role: true, userType: true, isSeller: true, activeMode: true },
         });
 
         if (!existingUser) {
@@ -45,6 +45,7 @@ async function verifyTokenAndAttachUser(
 
         req.user = {
             id: existingUser.id,
+            name: existingUser.name,
             email: existingUser.email,
             role: existingUser.role,
             userType: existingUser.userType,

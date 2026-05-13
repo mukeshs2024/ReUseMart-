@@ -91,7 +91,11 @@ export const getSellerOffers = async (req: AuthRequest, res: Response): Promise<
 // Seller: accept an offer
 export const acceptOffer = async (req: AuthRequest, res: Response): Promise<void> => {
     const sellerId = req.user!.id;
-    const offerId = req.params.id;
+    const offerId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    if (!offerId) {
+        res.status(400).json({ error: 'Offer ID is required' });
+        return;
+    }
     try {
         const offer = await prisma.offer.findUnique({ where: { id: offerId } });
         if (!offer) {
@@ -141,7 +145,11 @@ export const acceptOffer = async (req: AuthRequest, res: Response): Promise<void
 // Seller: decline an offer
 export const declineOffer = async (req: AuthRequest, res: Response): Promise<void> => {
     const sellerId = req.user!.id;
-    const offerId = req.params.id;
+    const offerId = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    if (!offerId) {
+        res.status(400).json({ error: 'Offer ID is required' });
+        return;
+    }
     try {
         const offer = await prisma.offer.findUnique({ where: { id: offerId } });
         if (!offer) {

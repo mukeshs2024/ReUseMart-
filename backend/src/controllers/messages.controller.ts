@@ -224,7 +224,8 @@ export async function replyMessage(req: AuthRequest, res: Response) {
         const [buyerExists, priorMessages, priorOrders] = await Promise.all([
             prisma.user.findUnique({ where: { id: buyerId }, select: { id: true } }),
             prisma.message.count({ where: { productId, buyerId, sellerId } }),
-            prisma.order.count({ where: { productId, buyerId, sellerId } }),
+            // Orders don't have a productId; check order items for prior purchases of this product
+            prisma.orderItem.count({ where: { productId, sellerId, order: { buyerId } } }),
         ]);
 
         if (!buyerExists) {

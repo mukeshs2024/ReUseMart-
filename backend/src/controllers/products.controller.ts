@@ -180,12 +180,12 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
                 
                 console.log(`[getProductById] Update successful, paymentQrCode saved: ${Boolean(updated.paymentQrCode)}`);
                 
-                // Re-fetch to get seller relation
+                // Re-fetch to get seller relation (include trustScore to satisfy consumers)
                 product = await prisma.product.findUnique({
                     where: { id: product.id },
                     include: {
                         seller: {
-                            select: { id: true, name: true },
+                            select: { id: true, name: true, trustScore: true },
                         },
                     },
                 });
@@ -236,7 +236,7 @@ export const searchProducts = async (req: Request, res: Response): Promise<void>
             orderBy: { createdAt: 'desc' },
             include: {
                 seller: {
-                    select: { id: true, name: true },
+                    select: { id: true, name: true, trustScore: true },
                 },
             },
         });

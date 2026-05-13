@@ -9,6 +9,7 @@ export interface JwtPayload {
     userType: 'BUYER' | 'SELLER' | 'BOTH';
     isSeller: boolean;
     activeMode: 'BUYER' | 'SELLER';
+    name?: string;
 }
 
 export const signToken = (payload: JwtPayload): string => {
